@@ -19,13 +19,13 @@ action "S3 Backup" {
 ```
 
 S3 Backup uses the `mirror` command of [MinIO Client](https://github.com/minio/mc).
-Additionl arguments may be passed to the action via the `args` parameter.
+Additional arguments may be passed to the action via the `args` parameter.
 
 #### Secrets and environment variables
 
 The secrets `ACCESS_KEY_ID` and `SECRET_ACCESS_KEY` are required and the associated IAM user should have `s3:*` policy access.
 
-- `MIRROR_TARGET` (**required**) - The target bucket and an optional key.
+- `MIRROR_TARGET` (**required**) - The target bucket, and optionally, the key within the bucket.
 - `MIRROR_SOURCE` - The source defaults to the repository root. If required a path relative to the root can be set.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
 - `STORAGE_SERVICE_ALIAS` - Defaults to `s3`. See [MinIO Client](https://github.com/minio/mc) for other options such as S3 compatible `minio`, and `gcs` for Google Cloud Storage.
