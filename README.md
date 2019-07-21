@@ -23,17 +23,21 @@ Additional arguments may be passed to the action via the `args` parameter.
 
 #### Secrets and environment variables
 
-The secrets `ACCESS_KEY_ID` and `SECRET_ACCESS_KEY` are required and the associated IAM user should have `s3:*` policy access.
+The following variables may be passed to the action as secrets or environment variables. `MIRROR_TARGET`, for example, if considered sensitive should be passed as a secret.
 
+- `ACCESS_KEY_ID` (**required**) - The storage service access key id.
+- `SECRET_ACCESS_KEY` (**required**) - The storage service secret access key.
 - `MIRROR_TARGET` (**required**) - The target bucket, and optionally, the key within the bucket.
 - `MIRROR_SOURCE` - The source defaults to the repository root. If required a path relative to the root can be set.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
 - `STORAGE_SERVICE_ALIAS` - Defaults to `s3`. See [MinIO Client](https://github.com/minio/mc) for other options such as S3 compatible `minio`, and `gcs` for Google Cloud Storage.
 
-#### Restricted IAM policy
+#### IAM user policy
 
-IAM users need full S3 access. However, you can create a policy to restrict access to specific resources if required.
-This policy grants the user access to the bucket `my-restricted-bucket` and its contents.
+The IAM user associated with the `ACCESS_KEY_ID` and `SECRET_ACCESS_KEY` should have `s3:*` policy access.
+
+If required you can create a policy to restrict access to specific resources.
+The following policy grants the user access to the bucket `my-restricted-bucket` and its contents.
 
 ```
 {
