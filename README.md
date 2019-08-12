@@ -7,15 +7,15 @@ A GitHub action to mirror a repository to S3 compatible object storage.
 
 This example will mirror your repository to an S3 bucket called `repo-backup-bucket` and at the optional key `/at/some/path`. Objects at the target will be overwritten, and extraneous objects will be removed. This default usage keeps your S3 backup in sync with GitHub.
 
-```hcl
-action "S3 Backup" {
-  uses = "peter-evans/s3-backup@v1.0.0"
-  secrets = ["ACCESS_KEY_ID", "SECRET_ACCESS_KEY"]
-  env = {
-    MIRROR_TARGET = "repo-backup-bucket/at/some/path"
-  }
-  args = "--overwrite --remove"
-}
+```yml
+    - name: S3 Backup
+      uses: peter-evans/s3-backup@v1.0.0
+      env:
+        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        MIRROR_TARGET: repo-backup-bucket/at/some/path
+      with:
+        args: --overwrite --remove
 ```
 
 S3 Backup uses the `mirror` command of [MinIO Client](https://github.com/minio/mc).
@@ -68,26 +68,26 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
 
 The workflow below filters `push` events for the `master` branch before mirroring to S3.
 
-```hcl
-workflow "Mirror repo to S3" {
-  resolves = ["S3 Backup"]
-  on = "push"
-}
-
-action "Filter master branch" {
-  uses = "actions/bin/filter@master"
-  args = "branch master"
-}
-
-action "S3 Backup" {
-  needs = ["Filter master branch"]
-  uses = "peter-evans/s3-backup@v1.0.0"
-  secrets = ["ACCESS_KEY_ID", "SECRET_ACCESS_KEY"]
-  env = {
-    MIRROR_TARGET = "my-repo-backup"
-  }
-  args = "--overwrite --remove"
-}
+```yml
+on: push
+name: Mirror repo to S3
+jobs:
+  s3Backup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Filter master branch
+      uses: actions/bin/filter@master
+      with:
+        args: branch master
+    - name: S3 Backup
+      uses: peter-evans/s3-backup@v1.0.0
+      env:
+        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
+        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      with:
+        args: --overwrite --remove
 ```
 
 ## License
