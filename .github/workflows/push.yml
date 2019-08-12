@@ -1,0 +1,19 @@
+on: push
+name: Mirror repo to S3
+jobs:
+  s3-backup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Filter master branch
+      uses: actions/bin/filter@master
+      with:
+        args: branch master
+    - name: S3 Backup
+      uses: ./
+      env:
+        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
+        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      with:
+        args: --overwrite --remove
