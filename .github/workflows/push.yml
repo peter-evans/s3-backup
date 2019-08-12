@@ -1,14 +1,13 @@
-on: push
 name: Mirror repo to S3
+on:
+  push:
+    branches:
+    - master
 jobs:
   s3Backup:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Filter master branch
-      uses: actions/bin/filter@master
-      with:
-        args: branch master
     - name: S3 Backup
       uses: ./
       env:
