@@ -69,17 +69,16 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
 The workflow below filters `push` events for the `master` branch before mirroring to S3.
 
 ```yml
-on: push
 name: Mirror repo to S3
+on:
+  push:
+    branches:
+    - master
 jobs:
   s3Backup:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Filter master branch
-      uses: actions/bin/filter@master
-      with:
-        args: branch master
     - name: S3 Backup
       uses: peter-evans/s3-backup@v1.0.0
       env:
