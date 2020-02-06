@@ -2,17 +2,17 @@ name: Mirror repo to S3
 on:
   push:
     branches:
-    - master
+      - master
 jobs:
   s3Backup:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: S3 Backup
-      uses: ./
-      env:
-        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-        MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
-        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-      with:
-        args: --overwrite --remove
+      - uses: actions/checkout@v2
+      - name: S3 Backup
+        uses: ./
+        env:
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        with:
+          args: --overwrite --remove
