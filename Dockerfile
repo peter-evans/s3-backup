@@ -1,4 +1,4 @@
-FROM minio/mc:RELEASE.2019-07-17T22-13-42Z
+FROM minio/mc:RELEASE.2020-02-05T20-07-22Z
 
 LABEL maintainer="Peter Evans <mail@peterevans.dev>"
 LABEL repository="https://github.com/peter-evans/s3-backup"
