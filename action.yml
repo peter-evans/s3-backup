@@ -1,0 +1,9 @@
+name: 'S3 Backup'
+author: 'Peter Evans'
+description: 'Mirror a repository to S3 compatible object storage'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'upload-cloud'  
+  color: 'yellow'
