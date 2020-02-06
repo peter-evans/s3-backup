@@ -9,7 +9,7 @@ This example will mirror your repository to an S3 bucket called `repo-backup-buc
 
 ```yml
     - name: S3 Backup
-      uses: peter-evans/s3-backup@v1.0.0
+      uses: peter-evans/s3-backup@v1
       env:
         ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
         SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
@@ -73,22 +73,22 @@ name: Mirror repo to S3
 on:
   push:
     branches:
-    - master
+      - master
 jobs:
   s3Backup:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: S3 Backup
-      uses: peter-evans/s3-backup@v1.0.0
-      env:
-        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-        MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
-        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-      with:
-        args: --overwrite --remove
+      - uses: actions/checkout@v2
+      - name: S3 Backup
+        uses: peter-evans/s3-backup@v1
+        env:
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        with:
+          args: --overwrite --remove
 ```
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details
+[MIT](LICENSE)
