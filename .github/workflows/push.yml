@@ -14,5 +14,6 @@ jobs:
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          STORAGE_SERVICE_URL: ${{ secrets.STORAGE_SERVICE_URL }}
         with:
           args: --overwrite --remove
