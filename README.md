@@ -29,7 +29,7 @@ The following variables may be passed to the action as secrets or environment va
 - `SECRET_ACCESS_KEY` (**required**) - The storage service secret access key.
 - `MIRROR_TARGET` (**required**) - The target bucket, and optionally, the key within the bucket.
 - `SESSION_TOKEN` - When using temporary credentials (Amazon S3)
-- `REGION` (required for SESSION_TOKEN) - the region where the s3 bucket is located for Amazon S3. **Mandatory** when using SESSION_TOKEN.
+- `REGION` (required with SESSION_TOKEN) - the region where the s3 bucket is located for Amazon S3. **Mandatory** when using SESSION_TOKEN.
 - `MIRROR_SOURCE` - The source defaults to the repository root. If required a path relative to the root can be set.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
 - `STORAGE_SERVICE_ALIAS` - Defaults to `s3`. See [MinIO Client](https://github.com/minio/mc) for other options such as S3 compatible `minio`, and `gcs` for Google Cloud Storage.
