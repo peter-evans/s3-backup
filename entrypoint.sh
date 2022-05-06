@@ -14,5 +14,5 @@ else
   export MC_HOST_${STORAGE_SERVICE_ALIAS}=https://${ACCESS_KEY_ID}:${SECRET_ACCESS_KEY}:${SESSION_TOKEN}@s3.${REGION}.amazonaws.com
 fi
 
-  # Execute mc mirror
-  mc mirror $* "$MIRROR_SOURCE" "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET"
+# Execute mc mirror
+mc mirror $* "$MIRROR_SOURCE" "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET"
