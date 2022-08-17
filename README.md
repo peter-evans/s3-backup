@@ -49,7 +49,7 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
             "Sid": "AllowBucketStat",
             "Effect": "Allow",
             "Action": [
-                "s3:HeadBucket"
+                "s3:ListBucket"
             ],
             "Resource": "*"
         },
