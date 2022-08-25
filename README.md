@@ -51,7 +51,7 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
             "Action": [
                 "s3:ListBucket"
             ],
-            "Resource": "*"
+            "Resource": "arn:aws:s3:::my-restricted-bucket"
         },
         {
             "Sid": "AllowThisBucketOnly",
