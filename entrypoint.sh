@@ -7,6 +7,12 @@ AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:=""}
 MIRROR_SOURCE=${MIRROR_SOURCE:="."}
 AWS_REGION=${AWS_REGION:=""}
 
+# Check mirror target is set
+if [ -z "$MIRROR_TARGET" ]; then
+  echo "MIRROR_TARGET is not set"
+  exit 1
+fi
+
 # Set mc configuration
 if [ -z "$AWS_SESSION_TOKEN" ]; then
   mc alias set "$STORAGE_SERVICE_ALIAS" "$STORAGE_SERVICE_URL" "$ACCESS_KEY_ID" "$SECRET_ACCESS_KEY"
