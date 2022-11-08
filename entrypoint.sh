@@ -7,8 +7,6 @@ curl https://dl.min.io/client/mc/release/linux-amd64/mc \
 
 chmod +x $HOME/minio-binaries/mc
 export PATH=$PATH:$HOME/minio-binaries/
-
-mc --help
   
 STORAGE_SERVICE_ALIAS=${STORAGE_SERVICE_ALIAS:="s3"}
 STORAGE_SERVICE_URL=${STORAGE_SERVICE_URL:="https://s3.amazonaws.com"}
@@ -34,8 +32,10 @@ fi
 
 # Execute mc pipe mongodump output to s3 bucket
 
-mongodump --archive --oplog --uri=$MONGODB_URI
+mongodump --help
 
 echo $MONGODB_NAME
+
+mongodump --archive --oplog --uri=$MONGODB_URI
 
 # mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
