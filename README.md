@@ -1,21 +1,24 @@
 # S3 Backup
+
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-S3%20Backup-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAM6wAADOsB5dZE0gAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAERSURBVCiRhZG/SsMxFEZPfsVJ61jbxaF0cRQRcRJ9hlYn30IHN/+9iquDCOIsblIrOjqKgy5aKoJQj4O3EEtbPwhJbr6Te28CmdSKeqzeqr0YbfVIrTBKakvtOl5dtTkK+v4HfA9PEyBFCY9AGVgCBLaBp1jPAyfAJ/AAdIEG0dNAiyP7+K1qIfMdonZic6+WJoBJvQlvuwDqcXadUuqPA1NKAlexbRTAIMvMOCjTbMwl1LtI/6KWJ5Q6rT6Ht1MA58AX8Apcqqt5r2qhrgAXQC3CZ6i1+KMd9TRu3MvA3aH/fFPnBodb6oe6HM8+lYHrGdRXW8M9bMZtPXUji69lmf5Cmamq7quNLFZXD9Rq7v0Bpc1o/tp0fisAAAAASUVORK5CYII=)](https://github.com/marketplace/actions/s3-backup)
 
-A GitHub action to mirror a repository to S3 compatible object storage.
+A GitHub action to mongodump a remote mongodb databse to S3 compatible object storage.
 
 ## Usage
 
-This example will mirror your repository to an S3 bucket called `repo-backup-bucket` and at the optional key `/at/some/path`. Objects at the target will be overwritten, and extraneous objects will be removed. This default usage keeps your S3 backup in sync with GitHub.
+This example will upload your mongodump to an S3 bucket called `mongo-backup-bucket` and at the optional key `/at/some/path`. Objects at the target will be overwritten, and extraneous objects will be removed. This default usage runs every 6 hours.
 
 ```yml
-    - name: S3 Backup
-      uses: peter-evans/s3-backup@v1
-      env:
-        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-        SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-        MIRROR_TARGET: repo-backup-bucket/at/some/path
-      with:
-        args: --overwrite --remove
+- name: S3 Backup
+  uses: peter-evans/s3-backup@v1
+  env:
+    ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+    SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+    MIRROR_TARGET: mongo-backup-bucket/at/some/path
+    MONGODB_URI: ${MONGODB_URI:=""}
+    MONGODB_NAME: ${MONGODB_NAME:=""}
+  with:
+    args: --overwrite --remove
 ```
 
 S3 Backup uses the `mirror` command of [MinIO Client](https://github.com/minio/mc).
@@ -33,6 +36,8 @@ The following variables may be passed to the action as secrets or environment va
 - `MIRROR_SOURCE` - The source defaults to the repository root. If required a path relative to the root can be set.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
 - `STORAGE_SERVICE_ALIAS` - Defaults to `s3`. See [MinIO Client](https://github.com/minio/mc) for other options such as S3 compatible `minio`, and `gcs` for Google Cloud Storage.
+- `MONGODB_URI: ${MONGODB_URI` - Defaults to "". Should be of the formant `mongodb+srv://<DB_USER>:<DB_PASSWORD>@<DB_HOST>`
+- `MONGODB_NAME: ${MONGODB_NAME` - Defaults to "". DB name to dump.
 
 #### IAM user policy
 
@@ -87,6 +92,8 @@ jobs:
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_NAME: ${{ secrets.MONGODB_NAME }}
         with:
           args: --overwrite --remove
 ```
@@ -94,4 +101,3 @@ jobs:
 ## License
 
 [MIT](LICENSE)
-

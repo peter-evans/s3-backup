@@ -6,6 +6,9 @@ STORAGE_SERVICE_URL=${STORAGE_SERVICE_URL:="https://s3.amazonaws.com"}
 AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:=""}
 MIRROR_SOURCE=${MIRROR_SOURCE:="."}
 AWS_REGION=${AWS_REGION:=""}
+MONGODB_URI=${MONGODB_URI:=""}
+MONGODB_NAME=${MONGODB_NAME:=""}
+
 
 # Check mirror target is set
 if [ -z "$MIRROR_TARGET" ]; then
@@ -20,5 +23,5 @@ else
   export MC_HOST_${STORAGE_SERVICE_ALIAS}=https://${ACCESS_KEY_ID}:${SECRET_ACCESS_KEY}:${AWS_SESSION_TOKEN}@s3.${AWS_REGION}.amazonaws.com
 fi
 
-# Execute mc mirror
-mc mirror $* "$MIRROR_SOURCE" "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET"
+# Execute mc pipe mongodump output to s3 bucket
+mongodump --archive --oplog --uri="$MONGODB_URI" | mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
