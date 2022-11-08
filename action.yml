@@ -1,12 +1,9 @@
-name: 'S3 Backup'
+name: 'Mongodump S3 Backup'
 author: 'Nnadozie Okeke'
-description: 'Mongodump to S3 compatible object storage'
+description: 'Mirror a repository to S3 compatible object storage'
 runs:
-  using: 'composite'
-  steps:
-    - name: Clone Database
-      run: ${{ github.action_path }}/entrypoint.sh
-      shell: bash
+  using: 'docker'
+  image: 'Dockerfile'
 branding:
-  icon: 'upload-cloud'
+  icon: 'upload-cloud'  
   color: 'yellow'

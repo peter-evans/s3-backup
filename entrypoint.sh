@@ -1,6 +1,15 @@
 #!/bin/sh -l
-set -euo pipefail
+# set -euo pipefail
 
+curl https://dl.min.io/client/mc/release/linux-amd64/mc \
+    --create-dirs \
+    -o $HOME/minio-binaries/mc
+
+chmod +x $HOME/minio-binaries/mc
+export PATH=$PATH:$HOME/minio-binaries/
+
+mc --help
+  
 STORAGE_SERVICE_ALIAS=${STORAGE_SERVICE_ALIAS:="s3"}
 STORAGE_SERVICE_URL=${STORAGE_SERVICE_URL:="https://s3.amazonaws.com"}
 AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:=""}

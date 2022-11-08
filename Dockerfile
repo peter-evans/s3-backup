@@ -1,4 +1,9 @@
-FROM minio/mc:RELEASE.2022-05-04T06-07-55Z
+FROM ubuntu:18.04
+
+RUN apt-get update -y && \ 
+    apt-get install -y mongodb
+
+RUN apt-get install -y curl
 
 LABEL maintainer="Nnadozie Okeke <dozie@fronte.io>"
 LABEL repository="https://github.com/VNDRMKT/mongodump-s3-backup"
