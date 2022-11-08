@@ -1,5 +1,6 @@
 FROM minio/mc:RELEASE.2022-05-04T06-07-55Z
-RUN brew install mongodb-database-tools
+RUN sudo RUN apt-get update -y && \ 
+    sudo apt-get install -y mongodb
 
 LABEL maintainer="Nnadozie Okeke <dozie@fronte.io>"
 LABEL repository="https://github.com/VNDRMKT/mongodump-s3-backup"
