@@ -2,8 +2,11 @@ name: 'S3 Backup'
 author: 'Nnadozie Okeke'
 description: 'Mongodump to S3 compatible object storage'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - name: Clone Database
+      run: ${{ github.action_path }}/entrypoint.sh
+      shell: bash
 branding:
   icon: 'upload-cloud'
   color: 'yellow'
