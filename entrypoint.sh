@@ -33,4 +33,9 @@ else
 fi
 
 # Execute mc pipe mongodump output to s3 bucket
-mongodump --archive --oplog --uri="$MONGODB_URI" | mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
+
+mongodump --archive --oplog --uri=$MONGODB_URI
+
+echo $MONGODB_NAME
+
+# mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
