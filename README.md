@@ -15,13 +15,13 @@ This example will upload your mongodump to an S3 bucket called `mongo-backup-buc
     ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
     SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
     MIRROR_TARGET: mongo-backup-bucket/at/some/path
-    MONGODB_URI: ${MONGODB_URI:=""}
-    MONGODB_NAME: ${MONGODB_NAME:=""}
+    MONGODB_URI: ${MONGODB_URI:="mongodb+srv://username:password@cluster0.ti1b0.mongodb.net"}
+    MONGODB_NAME: ${MONGODB_NAME:="name of s3 folder to store dump file"}
   with:
     args: --overwrite --remove
 ```
 
-S3 Backup uses the `mirror` command of [MinIO Client](https://github.com/minio/mc).
+S3 Backup uses the `pipe` command of [MinIO Client](https://github.com/minio/mc).
 Additional arguments may be passed to the action via the `args` parameter.
 
 #### Secrets and environment variables
@@ -33,7 +33,6 @@ The following variables may be passed to the action as secrets or environment va
 - `MIRROR_TARGET` (**required**) - The target bucket, and optionally, the key within the bucket.
 - `AWS_SESSION_TOKEN` - When using temporary credentials (Amazon S3)
 - `AWS_REGION` (required with AWS_SESSION_TOKEN) - the region where the s3 bucket is located for Amazon S3. **Mandatory** when using SESSION_TOKEN.
-- `MIRROR_SOURCE` - The source defaults to the repository root. If required a path relative to the root can be set.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
 - `STORAGE_SERVICE_ALIAS` - Defaults to `s3`. See [MinIO Client](https://github.com/minio/mc) for other options such as S3 compatible `minio`, and `gcs` for Google Cloud Storage.
 - `MONGODB_URI: ${MONGODB_URI` - Defaults to "". Should be of the formant `mongodb+srv://<DB_USER>:<DB_PASSWORD>@<DB_HOST>`
@@ -76,22 +75,20 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
 The workflow below filters `push` events for the `master` branch before mirroring to S3.
 
 ```yml
-name: Mirror repo to S3
-on:
-  push:
-    branches:
-      - master
+name: Mongodump to S3
+on: [push]
 jobs:
-  s3Backup:
+  MongodumpS3Backup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: S3 Backup
-        uses: peter-evans/s3-backup@v1
+      - name: Mongodump to S3 Backup
+        uses: VNDRMKT/mongodump-s3-backup@v0.13.0
         env:
-          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-          MIRROR_TARGET: ${{ secrets.MIRROR_TARGET }}
-          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          ACCESS_KEY_ID: ${{ secrets.AWS_MONGO_BACKUP_ACCESS_KEY_ID }}
+          MIRROR_TARGET: ${{ secrets.AWS_MONGO_BACKUP_MIRROR_TARGET }}
+          SECRET_ACCESS_KEY: ${{ secrets.AWS_MONGO_BACKUP_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_MONGO_BACKUP_AWS_REGION}}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           MONGODB_NAME: ${{ secrets.MONGODB_NAME }}
         with:
