@@ -14,7 +14,7 @@ This example will upload your mongodump to an S3 bucket called `mongo-backup-buc
   env:
     ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
     SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-    MIRROR_TARGET: mongo-backup-bucket/at/some/path
+    MIRROR_TARGET: mongo-backup-bucket
     MONGODB_URI: ${MONGODB_URI:="mongodb+srv://username:password@cluster0.ti1b0.mongodb.net"}
     MONGODB_NAME: ${MONGODB_NAME:="name of s3 folder to store dump file"}
   with:
@@ -30,7 +30,7 @@ The following variables may be passed to the action as secrets or environment va
 
 - `ACCESS_KEY_ID` (**required**) - The storage service access key id.
 - `SECRET_ACCESS_KEY` (**required**) - The storage service secret access key.
-- `MIRROR_TARGET` (**required**) - The target bucket, and optionally, the key within the bucket.
+- `MIRROR_TARGET` (**required**) - The target bucket.
 - `AWS_SESSION_TOKEN` - When using temporary credentials (Amazon S3)
 - `AWS_REGION` (required with AWS_SESSION_TOKEN) - the region where the s3 bucket is located for Amazon S3. **Mandatory** when using SESSION_TOKEN.
 - `STORAGE_SERVICE_URL` - The URL to the object storage service. Defaults to `https://s3.amazonaws.com` for Amazon S3.
