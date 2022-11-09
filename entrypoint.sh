@@ -1,5 +1,8 @@
 #!/bin/sh -l
 
+apt-get update
+apt-get install -y curl
+
 curl https://dl.min.io/client/mc/release/linux-amd64/mc \
     --create-dirs \
     -o $HOME/minio-binaries/mc
