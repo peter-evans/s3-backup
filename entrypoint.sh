@@ -32,10 +32,10 @@ fi
 
 # Execute mc pipe mongodump output to s3 bucket
 
-mongodump --help
+# mongodump --help
 
 echo $MONGODB_NAME
 
-mongodump --archive --oplog --uri=$MONGODB_URI
+# mongodump --archive --oplog --uri=$MONGODB_URI
 
 # mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
