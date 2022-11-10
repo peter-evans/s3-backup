@@ -6,7 +6,7 @@ A GitHub action to mongodump a remote mongodb databse to S3 compatible object st
 
 ## Usage
 
-This example will upload your mongodump to an S3 bucket called `mongo-backup-bucket` and at the optional key `/at/some/path`. Objects at the target will be overwritten, and extraneous objects will be removed. This default usage runs every 6 hours.
+This example will upload your mongodump to an S3 bucket called `mongo-backup-bucket` to a folder called MONGODB_NAME. Objects at the target will be overwritten, and extraneous objects will be removed.
 
 ```yml
 - name: S3 Backup
@@ -72,11 +72,20 @@ The following policy grants the user access to the bucket `my-restricted-bucket`
 
 ## Complete workflow example
 
-The workflow below filters `push` events for the `master` branch before mirroring to S3.
+The workflow below runs twice everyday.
 
 ```yml
 name: Mongodump to S3
-on: [push]
+
+# Run twice a day, at midnight PTC, and 12:00 PTC.
+# Those convert to 16:00 UTC, and 04:00 UTC respectively
+# This frequency assumes a runtime < 10mins
+# For a total of 600 ci/cd minutes monthly 
+on:
+  schedule:
+    - cron: '0 16 * * *'
+    - cron: '0 4 * * *'
+    
 jobs:
   MongodumpS3Backup:
     runs-on: ubuntu-latest
@@ -92,7 +101,7 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           MONGODB_NAME: ${{ secrets.MONGODB_NAME }}
         with:
-          args: --overwrite --remove
+          args: --overwrite --remove 
 ```
 
 ## License
