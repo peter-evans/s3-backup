@@ -6,7 +6,7 @@ A GitHub action to mongodump a remote mongodb databse to S3 compatible object st
 
 ## Usage
 
-This example will upload your mongodump to an S3 bucket called `mongo-backup-bucket` to a folder called MONGODB_NAME. Objects at the target will be overwritten, and extraneous objects will be removed.
+This example will upload your mongodump to an S3 bucket called `mongo-backup-bucket`, into a folder called MONGODB_NAME. Objects at the target will be overwritten, and extraneous objects will be removed.
 
 ```yml
 - name: S3 Backup
