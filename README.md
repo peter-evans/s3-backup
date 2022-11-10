@@ -10,7 +10,7 @@ This example will upload your mongodump to an S3 bucket called `mongo-backup-buc
 
 ```yml
 - name: S3 Backup
-  uses: peter-evans/s3-backup@v1
+  uses: VNDRMKT/mongodump-s3-backup@v1.0.0
   env:
     ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
     SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
@@ -92,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Mongodump to S3 Backup
-        uses: VNDRMKT/mongodump-s3-backup@v0.13.0
+        uses: VNDRMKT/mongodump-s3-backup@v1.0.0
         env:
           ACCESS_KEY_ID: ${{ secrets.AWS_MONGO_BACKUP_ACCESS_KEY_ID }}
           MIRROR_TARGET: ${{ secrets.AWS_MONGO_BACKUP_MIRROR_TARGET }}
