@@ -31,5 +31,12 @@ else
   export MC_HOST_${STORAGE_SERVICE_ALIAS}=https://${ACCESS_KEY_ID}:${SECRET_ACCESS_KEY}:${AWS_SESSION_TOKEN}@s3.${AWS_REGION}.amazonaws.com
 fi
 
-# Execute mc pipe mongodump output to s3 bucket
+
+# Execute mc pipe mongodump output to s3 bucket and check for failure
 mongodump --archive --oplog --uri=$MONGODB_URI | mc pipe "$STORAGE_SERVICE_ALIAS/$MIRROR_TARGET/$MONGODB_NAME"
+MONGODUMP_STATUS=$?
+
+if [ $MONGODUMP_STATUS -ne 0 ]; then
+  echo "Mongodump failed with status $MONGODUMP_STATUS"
+  exit $MONGODUMP_STATUS
+fi
