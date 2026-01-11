@@ -81,6 +81,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # <-- clone with complete history
       - name: S3 Backup
         uses: peter-evans/s3-backup@v1
         env:
